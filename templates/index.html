@@ -43,7 +43,9 @@
         background-color: rgba(0, 128, 0, 0.43);
     }
 </style>
-<div ng-app="app" ng-controller="MainController">
+<body style="  background: url(/static/bg.jpg) center; background-size: cover;">
+<div ng-app="app" ng-controller="MainController" style="background-color: rgba(255, 255, 255, 0.38); width: 60%; margin: auto; min-height: 40px; padding: 20px">
+    <h1>Sphere Address Validator</h1>
     <input ng-model="client_id">
     <input ng-model="client_secret" type="password">
     <input ng-model="project_key">
@@ -63,5 +65,7 @@
         </tr>
     </table>
     </span>
+</span>
+    <p>By <a href="http://ondrejsika.com" target="_blank">Ondrej Sika</a> at <b>Berlin</b>.</p>
 </div>
 {% endraw %}
