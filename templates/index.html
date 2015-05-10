@@ -1,0 +1,67 @@
+{% raw %}
+<script src="/static/angular.min.js"></script>
+<script>
+    var app = angular.module('app', []);
+    app.controller('MainController', function($scope, $http){
+        $scope.active = false;
+        $scope.client_id = '1BKSMOeddJ3D_60i5J1d_IZ1';
+        $scope.client_secret = 'cnZzQJTUUnpUEGOhHe9g24mxXskHltSE';
+        $scope.project_key = 'test-project-95';
+        $scope.check = function(){
+            var url = '/api/'+$scope.client_id+'/'+$scope.client_secret+'/'+$scope.project_key;
+            $http.get(url).success(function(data){
+                $scope.all = [];
+                $scope.valid = [];
+                $scope.invalid = [];
+                for (i in data){
+                    $scope.all.push(data[i]);
+                    if (data[i].is_valid == true){$scope.valid.push(data[i])}
+                    if (data[i].is_valid == false){$scope.invalid.push(data[i])}
+                }
+                console.log($scope.all);
+                console.log($scope.valid);
+                console.log($scope.invalid);
+                $scope.show_all();
+            });
+        $scope.show_all = function(){
+            $scope.active = $scope.all;
+        }
+        $scope.show_valid = function(){
+            $scope.active = $scope.valid;
+        }
+        $scope.show_invalid = function(){
+            $scope.active = $scope.invalid;
+        }
+        }
+    })
+</script>
+<style>
+    .red {
+        background-color: rgba(255, 0, 0, 0.34);
+    }
+    .green {
+        background-color: rgba(0, 128, 0, 0.43);
+    }
+</style>
+<div ng-app="app" ng-controller="MainController">
+    <input ng-model="client_id">
+    <input ng-model="client_secret" type="password">
+    <input ng-model="project_key">
+    <button ng-click="check()">check</button>
+    <span ng-show="active">
+    <button ng-click="show_all()">all</button>
+    <button ng-click="show_valid()">valid</button>
+    <button ng-click="show_invalid()">invalid</button>
+    <table>
+        <tr>
+            <th>custommer</th>
+            <th>address no.</th>
+        </tr>
+        <tr ng-repeat="line in active" class="{{line.color}}">
+            <td><a href="https://admin.sphere.io/{{ project_key }}/customers/{{ line.id }}/addresses" target="_blank">{{ line.name }}</td>
+            <td style="text-align: right">{{ line.address_no }}</td>
+        </tr>
+    </table>
+    </span>
+</div>
+{% endraw %}
